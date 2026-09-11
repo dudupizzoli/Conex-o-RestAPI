@@ -3,10 +3,7 @@ package br.com.fiap.agenda_web.controller;
 import br.com.fiap.agenda_web.dao.EnderecoDAO;
 import br.com.fiap.agenda_web.model.Endereco;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,15 +20,25 @@ public class EnderecoController {
     //colocar enderecos no banco de dados
 
     @GetMapping("/{id}")
-    public Endereco buscarPorId(int id){
+    public Endereco buscarPorId(@PathVariable int id){
         var endereco = enderecoDAO.buscarPorId(id);
         return endereco;
     }
 
-    @PostMapping
+    @PostMapping({"/{id}"})
     public void cadastrar(Endereco endereco){
         System.out.println("Entrou");
         enderecoDAO.cadastrar(endereco);
+    }
+
+    @PutMapping("/{id}")
+    public void atualizar(@PathVariable int id, @RequestBody Endereco endereco){
+        enderecoDAO.alterar(endereco);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deletar(@PathVariable int id){
+        enderecoDAO.excluir(id);
     }
 
 }
