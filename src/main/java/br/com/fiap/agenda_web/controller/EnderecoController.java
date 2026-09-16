@@ -25,8 +25,8 @@ public class EnderecoController {
         return endereco;
     }
 
-    @PostMapping({"/{id}"})
-    public void cadastrar(Endereco endereco){
+    @PostMapping
+    public void cadastrar(@RequestBody Endereco endereco){
         System.out.println("Entrou");
         enderecoDAO.cadastrar(endereco);
     }
