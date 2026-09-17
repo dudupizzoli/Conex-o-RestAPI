@@ -62,6 +62,7 @@ public class ContatoDAO {
                             "(id_contato, id_endereco) values (?, ?)");
                     psEntrega.setInt(1, contato.getId());
                     psEntrega.setInt(2, endereco.getCodigo());
+                    psEntrega.executeUpdate();
                     psEntrega.close();
                 }
             }
@@ -106,12 +107,12 @@ public class ContatoDAO {
                 endereco = enderecoDAO.buscarPorId(codigoEnderecoPrincipal);
                 contato.setEndereco(endereco);
 
-                PreparedStatement psEntrega = conexao.prepareStatement("select id_endereco from" +
+                PreparedStatement psEntrega = conexao.prepareStatement("select id_endereco from " +
                         "tbl_contato_endereco_entrega where id_contato = ? ");
                 psEntrega.setInt(1, id);
                 ResultSet rsEntrega = psEntrega.executeQuery();
                 List<Endereco> enderecosEntrega = new ArrayList<>();
-                while(rs.next()){
+                while(rsEntrega.next()){
                     Endereco enderecoEntrega = enderecoDAO.buscarPorId(rsEntrega.getInt(1));
                     enderecosEntrega.add(enderecoEntrega);
                 }
