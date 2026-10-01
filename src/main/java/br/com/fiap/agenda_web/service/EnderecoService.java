@@ -13,7 +13,7 @@ public class EnderecoService {
     private final EnderecoDAO enderecoDAO;
 
     public EnderecoService() {
-        enderecoDAO = new EnderecoDAO();
+        this.enderecoDAO = new EnderecoDAO();
     }
 
     public List<Endereco> listar(){
@@ -44,6 +44,15 @@ public class EnderecoService {
         enderecoDAO.alterar(endereco);
 
     }
+    /* colocar isso no banco de dados pra ver se funciona
+    * insert into endereco_agenda (CODIGO, LOGRADOURO, CEP, BAIRRO, CIDADE, ESTADO, UF, NUMERO, COMPLEMENTO)
+values(2, 'Avenida Conselheiro Carrão', '4567', 'Vila Carrão', 'São Paulo', 'São Paulo', 'SP', '54', '29');
+
+insert into endereco_agenda (CODIGO, LOGRADOURO, CEP, BAIRRO, CIDADE, ESTADO, UF, NUMERO, COMPLEMENTO)
+values(3, 'Rua Antônio de Barros', '8746', 'Tatuapé', 'São Paulo', 'São Paulo', 'SP', '42', '81');
+
+insert into endereco_agenda (CODIGO, LOGRADOURO, CEP, BAIRRO, CIDADE, ESTADO, UF, NUMERO, COMPLEMENTO)
+values(4, 'Rua João Frango', '7639', 'Mooca', 'São Paulo', 'São Paulo', 'SP', '87', '12');*/
 
     public void excluir(int id){
         Endereco enderecoExiste = buscarPorId(id);

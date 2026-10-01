@@ -127,6 +127,9 @@ public class EnderecoDAO {
                 ende.setNumero(rs.getString(8));
                 ende.setComplemento(rs.getString(9));
                 enderecos.add(ende);
+
+                comandoSql.close();
+                conexao.close();
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
