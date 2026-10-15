@@ -13,23 +13,37 @@ public class EnderecoService {
     private final ViaCepService viaCepService;
 
     public EnderecoService(ViaCepService viaCepService) {
-        enderecoDAO = new EnderecoDAO();
         this.viaCepService = viaCepService;
-        ;
+        enderecoDAO = new EnderecoDAO();
     }
 
     public List<Endereco> listar(){
         return enderecoDAO.buscarTodosEnderecos();
     }
 
+    public Endereco consultarCep(String cep){
+        var enderecoDto = viaCepService.consultarCep(cep);
+        var endereco = new Endereco();
+        endereco.setCep(enderecoDto.cep());
+        endereco.setUf(enderecoDto.uf());
+        endereco.setBairro(enderecoDto.bairro());
+        endereco.setLogradouro(enderecoDto.logradouro());
+        endereco.setCidade(enderecoDto.localidade());
+        endereco.setEstado(enderecoDto.estado());
+        return endereco;
+    }
     public Endereco buscarPorId(int id){
         var endereco = enderecoDAO.buscarPorId(id);
         return endereco;
     }
     public void cadastrar( Endereco endereco){
-        if(endereco.getCep() != null )
-            enderecoDAO.cadastrar(endereco);
-        else
+        if(endereco.getCep() != null ) {
+            var novoEndereco = consultarCep(endereco.getCep());
+            novoEndereco.setNumero(endereco.getNumero());
+            novoEndereco.setComplemento(endereco.getComplemento());
+            novoEndereco.setCodigo(endereco.getCodigo());
+            enderecoDAO.cadastrar(novoEndereco);
+        }else
             throw new RuntimeException("Endereço incompleto");
     }
 
@@ -44,24 +58,12 @@ public class EnderecoService {
         enderecoDAO.alterar(endereco);
     }
 
-    public void excluir(int id){
+    public void excluir(int id) {
         Endereco enderecoExiste = buscarPorId(id);
-        if(enderecoExiste == null)
+        if (enderecoExiste == null)
             throw new IllegalArgumentException("Endereço não encontrado");
 
         enderecoDAO.excluir(id);
-    }
 
-    public Endereco consultaCep (String cep){
-        var enderecoDto = viaCepService.consultarCep(cep);
-        var endereco = new Endereco();
-        endereco.setCep(enderecoDto.cep());
-        endereco.setUf(enderecoDto.uf());
-        endereco.setBairro(enderecoDto.bairro());
-        endereco.setCidade(enderecoDto.cidade());
-        endereco.setLogradouro(enderecoDto.logradouro());
-        endereco.setEstado(enderecoDto.estado());
-        return endereco;
     }
-
 }

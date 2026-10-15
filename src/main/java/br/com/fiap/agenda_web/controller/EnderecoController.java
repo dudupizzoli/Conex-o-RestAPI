@@ -11,12 +11,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/enderecos")
 public class EnderecoController {
-    private final EnderecoService enderecoService;
     private ViaCepService viaCepService = new ViaCepService();
+    private EnderecoService enderecoService = new EnderecoService(viaCepService);
 
-    public EnderecoController(){
-        this.enderecoService = new EnderecoService(viaCepService);
-    }
 
     @GetMapping
     public List<Endereco> listar(){
@@ -24,8 +21,8 @@ public class EnderecoController {
     }
 
     @GetMapping("cep/{cep}")
-    public ViaCepResponse consultarPorCep(@PathVariable String cep){
-        var endereco = viaCepService.consultarCep(cep);
+    public Endereco consultarCep(@PathVariable String cep){
+        var endereco = enderecoService.consultarCep(cep);
         return endereco;
     }
 
@@ -34,29 +31,19 @@ public class EnderecoController {
         var endereco = enderecoService.buscarPorId(id);
         return endereco;
     }
-
     @PostMapping
     public void cadastrar(@RequestBody Endereco endereco){
-        System.out.println("Entrou");
         enderecoService.cadastrar(endereco);
     }
 
     @PutMapping("/{id}")
-    public void atualizar(@PathVariable int id, @RequestBody Endereco endereco){
-        try {
-            enderecoService.atualizar(id, endereco);
-        }catch(IllegalArgumentException e){
-            System.out.println("Ocorreu um erro: " + e);
-        }
+    public void atualizar(@PathVariable int id,
+                          @RequestBody Endereco endereco){
+        enderecoService.atualizar(id, endereco);
     }
-
     @DeleteMapping("/{id}")
     public void excluir(@PathVariable int id){
-        try {
-            enderecoService.excluir(id);
-        }catch(IllegalArgumentException e){
-            System.out.println("Ocorreu um erro: " + e);
-        }
+        enderecoService.excluir(id);
     }
 
 }

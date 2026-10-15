@@ -1,0 +1,5 @@
+br\com\fiap\agenda_web\service\ViaCepService.class
+br\com\fiap\agenda_web\dto\ContatoRequestDTO.class
+br\com\fiap\agenda_web\mapper\ContatoMapper.class
+br\com\fiap\agenda_web\dto\ContatoResponseDTO.class
+br\com\fiap\agenda_web\dto\ViaCepResponse.class

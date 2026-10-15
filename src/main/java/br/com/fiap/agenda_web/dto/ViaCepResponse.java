@@ -4,10 +4,9 @@ public record ViaCepResponse(
         String logradouro,
         String cep,
         String bairro,
-        String cidade,
+        String localidade,
         String estado,
         String uf,
-        String numero,
         String complemento
 ) {
 
